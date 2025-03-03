@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.MaterialTheme.typography
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
@@ -28,17 +29,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import by.slizh.authorizationapp.R
 import by.slizh.authorizationapp.ui.theme.Black
 import by.slizh.authorizationapp.ui.theme.Blue
 import by.slizh.authorizationapp.ui.theme.DarkGray
 import by.slizh.authorizationapp.ui.theme.LightGray
-import by.slizh.authorizationapp.ui.theme.robotoFamily
 
 @Composable
 fun AuthorizationScreen(modifier: Modifier = Modifier) {
@@ -48,20 +46,14 @@ fun AuthorizationScreen(modifier: Modifier = Modifier) {
     Column(modifier.padding(start = 16.dp, top = 22.dp, end = 16.dp)) {
         Text(
             text = stringResource(id = R.string.lets_get_started),
-            fontSize = 32.sp,
-            fontFamily = robotoFamily,
-            fontWeight = FontWeight.Medium,
-            color = Black
+            style = typography.headlineMedium
         )
         Spacer(modifier = Modifier.height(8.dp))
 
         Text(
             modifier = Modifier.padding(end = 42.dp),
             text = stringResource(id = R.string.enter_your_phone),
-            fontSize = 14.sp,
-            fontFamily = robotoFamily,
-            fontWeight = FontWeight.Normal,
-            color = DarkGray
+            style = typography.bodyMedium
         )
 
         Spacer(modifier = Modifier.height(36.dp))
@@ -97,8 +89,8 @@ fun AuthorizationScreen(modifier: Modifier = Modifier) {
                     Spacer(modifier = Modifier.width(8.dp))
                     Text(
                         text = "+7",
-                        fontSize = 16.sp,
                         color = Black,
+                        style = typography.bodyLarge
                     )
                 }
             }
@@ -106,17 +98,18 @@ fun AuthorizationScreen(modifier: Modifier = Modifier) {
 
             OutlinedTextField(
                 value = phoneNumber,
-                placeholder = { Text(text = stringResource(id = R.string.mobile_number), color = DarkGray) },
+                placeholder = {
+                    Text(
+                        text = stringResource(id = R.string.mobile_number),
+                        color = DarkGray
+                    )
+                },
                 onValueChange = { phoneNumber = it },
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(52.dp),
                 shape = RoundedCornerShape(10.dp),
-                textStyle = TextStyle(
-                    fontSize = 16.sp,
-                    fontFamily = robotoFamily,
-                    fontWeight = FontWeight.Normal,
-                ),
+                textStyle = typography.bodyLarge,
                 singleLine = true,
                 colors = OutlinedTextFieldDefaults.colors(
                     focusedTextColor = Black,
@@ -144,10 +137,8 @@ fun AuthorizationScreen(modifier: Modifier = Modifier) {
         ) {
             Text(
                 text = stringResource(id = R.string.continue_text),
-                fontSize = 16.sp,
                 color = Color.White,
-                fontFamily = robotoFamily,
-                fontWeight = FontWeight.Medium
+                style = typography.bodyLarge.copy(fontWeight = FontWeight.Medium)
             )
         }
     }
