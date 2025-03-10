@@ -1,10 +1,10 @@
 package by.slizh.authorizationapp.util
 
 sealed class Resource<T>(
-    val data: T? = null,
-    val message: String? = null
+    open val data: T? = null,
+    open val message: String? = null
 ) {
-    class Success<T>(data: T?) : Resource<T>(data)
-    class Error<T>(message: String, data: T? = null) : Resource<T>(data, message)
-    class Loading<T>(val isLoading: Boolean = true) : Resource<T>(null)
+    data class Success<T>(override val data: T) : Resource<T>(data)
+    class Error<T>(override val message: String) : Resource<T>(message = message)
+    class Loading<T>(val isLoading: Boolean = true) : Resource<T>()
 }

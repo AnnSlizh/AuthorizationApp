@@ -8,6 +8,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.PhoneAuthCredential
 import com.google.firebase.auth.PhoneAuthOptions
 import com.google.firebase.auth.PhoneAuthProvider
+import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.flow.flow
@@ -21,7 +22,7 @@ class AuthRepositoryImpl @Inject constructor(
 
     private var resendToken: PhoneAuthProvider.ForceResendingToken? = null
 
-    override suspend fun sendVerificationCode(
+    override fun sendVerificationCode(
         phoneNumber: String, activity: Activity
     ): Flow<Resource<String>> = callbackFlow {
         trySend(Resource.Loading())
@@ -50,9 +51,10 @@ class AuthRepositoryImpl @Inject constructor(
             .build()
 
         PhoneAuthProvider.verifyPhoneNumber(options)
+        awaitClose {}
     }
 
-    override suspend fun verifyCode(
+    override fun verifyCode(
         verificationId: String, code: String
     ): Flow<Resource<Boolean>> = flow {
         emit(Resource.Loading())
@@ -62,12 +64,12 @@ class AuthRepositoryImpl @Inject constructor(
             firebaseAuth.signInWithCredential(credential).await()
             Resource.Success(true)
         } catch (e: Exception) {
-            Resource.Error(e.localizedMessage ?: "Entry error", false)
+            Resource.Error(e.localizedMessage ?: "Entry error")
         }
         emit(result)
     }
 
-    override suspend fun resendCode(
+    override fun resendCode(
         phoneNumber: String, activity: Activity
     ): Flow<Resource<Unit>> = callbackFlow {
         val token = resendToken ?: return@callbackFlow
@@ -99,5 +101,6 @@ class AuthRepositoryImpl @Inject constructor(
             .build()
 
         PhoneAuthProvider.verifyPhoneNumber(options)
+        awaitClose {}
     }
 }
